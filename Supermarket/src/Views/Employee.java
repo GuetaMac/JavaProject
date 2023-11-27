@@ -1,16 +1,14 @@
 package Views;
 
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
-import Views.Values;
 import Models.Product;
 
 public class Employee extends javax.swing.JPanel{
     JLabel title, productName, productPrice, productQuantity, productList;
     JTextField name, price, quantity;
-    JButton add, remove, edit, logout, search;
+    JButton add, remove, edit, search, logout, pageSales;
     JTextArea productListText;
 
     public Employee(ActionListener ac, String loggedUser, ArrayList<Product> products){ //Constructor
@@ -19,7 +17,7 @@ public class Employee extends javax.swing.JPanel{
 
         title = new JLabel();
         title.setText("Supermarket - Welcome " + loggedUser);
-        title.setBounds(0+20,20, 400,40);
+        title.setBounds(0+20,20, 600,40);
         title.setVerticalAlignment(SwingConstants.CENTER);
         title.setHorizontalAlignment(SwingConstants.LEFT);
         title.setFont(v.titleFont);
@@ -80,6 +78,14 @@ public class Employee extends javax.swing.JPanel{
         logout.setActionCommand("logoutCommand");
         add(logout);
 
+        pageSales = new JButton();
+        pageSales.setFont(v.btnFont);
+        pageSales.setBounds(0+20, 500, 200, 40);
+        pageSales.setText("Sales Page");
+        pageSales.addActionListener(ac);
+        pageSales.setActionCommand("switchToSalesCommand");
+        add(pageSales);
+
         add = new JButton();
         add.setFont(v.btnFont);
         add.setBounds(800/2+160, 20+(60*1), 200, 40);
@@ -88,9 +94,17 @@ public class Employee extends javax.swing.JPanel{
         add.setActionCommand("addStockCommand");
         add(add);
 
+        search = new JButton();
+        search.setFont(v.btnFont);
+        search.setBounds(800/2+160, 20+(60*2), 200, 40);
+        search.setText("Search");
+        search.addActionListener(ac);
+        search.setActionCommand("searchEmployeeProductCommand");
+        add(search);
+        
         edit = new JButton();
         edit.setFont(v.btnFont);
-        edit.setBounds(800/2+160, 20+(60*2), 200, 40);
+        edit.setBounds(800/2+160, 20+(60*3), 200, 40);
         edit.setText("Edit");
         edit.addActionListener(ac);
         edit.setActionCommand("editStockCommand");
@@ -98,19 +112,11 @@ public class Employee extends javax.swing.JPanel{
 
         remove = new JButton();
         remove.setFont(v.btnFont);
-        remove.setBounds(800/2+160, 20+(60*3), 200, 40);
+        remove.setBounds(800/2+160, 20+(60*4), 200, 40);
         remove.setText("Remove");
         remove.addActionListener(ac);
         remove.setActionCommand("removeStockCommand");
         add(remove);
-
-        search = new JButton();
-        search.setFont(v.btnFont);
-        search.setBounds(800/2+160, 20+(60*4), 200, 40);
-        search.setText("Search Stock");
-        search.addActionListener(ac);
-        search.setActionCommand("searchStockCommand");
-        add(search);
 
         productListText = new JTextArea();
         productListText.setFont(v.textAreaFont);
@@ -127,26 +133,39 @@ public class Employee extends javax.swing.JPanel{
     }
 
     public void updateProductList(ArrayList<Product> products){
-        productListText.setText("");
-        for(int i = 0; i < products.size(); i++)
-            productListText.append(products.get(i).getSummary(false) + "\n");
+    // Clear the existing text in 'productListText' to refresh the display
+    productListText.setText("");
+
+    // Iterate through the list of products and append their summaries to 'productListText'
+    for(int i = 0; i < products.size(); i++)
+        productListText.append(products.get(i).getSummary() + "\n");
     }
 
     public String getProductName(){
+        // Retrieve and return the text entered in the 'name' field (assuming 'name' is a JTextField or similar component)
         return name.getText();
     }
 
     public double getProductPrice(){
+        // Check if the 'price' field is empty; if so, return 0, otherwise, parse and return the double value entered
+        if(price.getText().equals(""))
+            return 0;
         return Double.parseDouble(price.getText());
     }
 
     public int getProductQuantity(){
+        // Check if the 'quantity' field is empty; if so, return 0, otherwise, parse and return the integer value entered
+        if(quantity.getText().equals(""))
+            return 0;
         return Integer.parseInt(quantity.getText());
     }
 
     public void setProductInfo(Product p){
+        // Set the 'name' field to the product name, 'price' field to the product price, and 'quantity' field to the product quantity
         name.setText(p.getName());
         price.setText(p.getPrice()+"");
         quantity.setText(p.getQuantity()+"");
     }
 }
+
+

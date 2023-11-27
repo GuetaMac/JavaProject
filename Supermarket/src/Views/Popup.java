@@ -20,6 +20,21 @@ public class Popup {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
     }
 
+    public boolean yesno(String title, String question){
+        if(JOptionPane.showConfirmDialog(null, question, title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+            return true;
+        return false;
+    }
+    
+    public double donation(){ 
+        String input = JOptionPane.showInputDialog(null, "Enter the amount that you want to donate to fight hunger and malnutrition.", "Donation", JOptionPane.QUESTION_MESSAGE);
+        try{
+            return Double.parseDouble(input);
+        }catch(Exception e){
+            return 0;
+        }
+    }
+
     public User newUser(Controller c){
         JTextField username = new JTextField();
         JPasswordField password1 = new JPasswordField();
@@ -75,33 +90,5 @@ public class Popup {
             }
         }
         return u;
-    }
-
-    public double askDonation(){
-        JTextField donationField = new JTextField();
-        donationField.setText("0");
-
-        JLabel titleLabel = new JLabel("Donate to Fight Hunger & Malnutrition".toUpperCase());
-        JLabel donationLabel = new JLabel("Enter Amount (PHP):");
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        
-        panel.add(titleLabel);
-        panel.add(Box.createVerticalStrut(15)); // a spacer
-        panel.add(donationLabel);
-        panel.add(donationField);
-        panel.add(Box.createVerticalStrut(15)); // a spacer
-        
-        int result = JOptionPane.showConfirmDialog(null, panel, "Supermarket - UN SDG", JOptionPane.OK_CANCEL_OPTION);
-        double donation = 0;
-
-        if(result == JOptionPane.OK_OPTION){
-            donation = Double.parseDouble(donationField.getText());
-            if(donation > 0)
-                this.info("Supermarket - UN SDG", "Thank you for your donation!");
-        }
-
-        return donation;
     }
 }

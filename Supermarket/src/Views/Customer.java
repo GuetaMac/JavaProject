@@ -19,7 +19,7 @@ public class Customer extends javax.swing.JPanel{
 
         title = new JLabel();
         title.setText("Supermarket - Welcome " + loggedUser);
-        title.setBounds(0+20,20, 400,40);
+        title.setBounds(0+20,20, 600,40);
         title.setVerticalAlignment(SwingConstants.CENTER);
         title.setHorizontalAlignment(SwingConstants.LEFT);
         title.setFont(v.titleFont);
@@ -102,7 +102,7 @@ public class Customer extends javax.swing.JPanel{
         search.setBounds(800/2+160, 20+(60*1), 200, 40);
         search.setText("Search");
         search.addActionListener(ac);
-        search.setActionCommand("searchProductCommand");
+        search.setActionCommand("searchCustomerProductCommand");
         add(search);
 
         add = new JButton();
@@ -145,32 +145,46 @@ public class Customer extends javax.swing.JPanel{
         updateProductList(products);
     }
 
-    public String getProductName(){
-        return name.getText();
-    }
+   public String getProductName(){
+    // Retrieve and return the text entered in the 'name' field (assuming 'name' is a JTextField or similar component)
+    return name.getText();
+}
 
-    public int getProductQuantity(){
-        return Integer.parseInt(quantity.getText());
-    }
+public int getProductQuantity(){
+    // Check if the 'quantity' field is empty; if so, show a warning and return 0
+    if(quantity.getText().length() == 0)
+        new Popup().warning("Product Quantity", "Please enter a valid quantity value.");
 
-    public void setProductInfo(Product p){
-        name.setText(p.getName());
-        price.setText("Php " + p.getPrice()+"");
-    }
+    // Parse and return the integer value entered in the 'quantity' field
+    return Integer.parseInt(quantity.getText());
+}
 
-    public void updateProductList(ArrayList<Product> products){
-        productListText.setText("");
-        for(int i = 0; i < products.size(); i++)
-            productListText.append(products.get(i).getSummary(false) + "\n");
-    }
+public void setProductInfo(Product p){
+    // Set the text in the 'name' field to the product name and display the price in the 'price' field
+    name.setText(p.getName());
+    price.setText("Php " + p.getPrice() + "");
+}
 
-    public void updateCartList(ArrayList<Product> products){
-        cartListText.setText("");
-        for(int i = 0; i < products.size(); i++)
-            cartListText.append(products.get(i).getSummary(true) + "\n");
-    }
+public void updateProductList(ArrayList<Product> products){
+    // Clear the existing text in 'productListText'
+    productListText.setText("");
 
-    public void clearCart(){
-        cartListText.setText("");
-    }
+    // Iterate through the list of products and append their summaries to 'productListText'
+    for(int i = 0; i < products.size(); i++)
+        productListText.append(products.get(i).getSummary() + "\n");
+}
+
+public void updateCartList(ArrayList<Product> products){
+    // Clear the existing text in 'cartListText'
+    cartListText.setText("");
+
+    // Iterate through the list of products and append their summaries to 'cartListText'
+    for(int i = 0; i < products.size(); i++)
+        cartListText.append(products.get(i).getSummary() + "\n");
+}
+
+public void clearCart(){
+    // Clear the existing text in 'cartListText' to empty the cart display
+    cartListText.setText("");
+}
 }

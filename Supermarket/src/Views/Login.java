@@ -50,7 +50,7 @@ public class Login extends javax.swing.JPanel{
 
         signup = new JButton();
         signup.setFont(v.btnFont);
-        signup.setBounds(120, 400, 160, 40);
+        signup.setBounds(120+(120*1)+60, 400, 160, 40);
         signup.setText("Signup");
         signup.addActionListener(ac);
         signup.setActionCommand("signupCommand");
@@ -58,7 +58,7 @@ public class Login extends javax.swing.JPanel{
 
         login = new JButton();
         login.setFont(v.btnFont);
-        login.setBounds(120+(120*1)+60, 400, 160, 40);
+        login.setBounds(120, 400, 160, 40);
         login.setText("Login");
         login.addActionListener(ac);
         login.setActionCommand("loginCommand");
@@ -71,9 +71,6 @@ public class Login extends javax.swing.JPanel{
         exit.addActionListener(ac);
         exit.setActionCommand("exitCommand");
         add(exit);
-
-        new Popup().info("Welcome!", "Log in with your credentials if you are a buyer, and if you are a customer, log in as well.");
-
 
         revalidate();
     }
