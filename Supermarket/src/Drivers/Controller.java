@@ -210,25 +210,44 @@ private void addToCart() {
     // Get the selected product based on the product name
     this.selectedProduct = sql.getProduct(productName);
 
-    // Set product information on the customer page
-    this.g.getCustomerPage().setProductInfo(this.selectedProduct);
-
     // Check if the selected product exists
     if (this.selectedProduct == null) {
         // Show a warning message if the selected product doesn't exist
         new Popup().warning("Add to Cart", "Product Does Not Exist!");
+        return;  // Exit the method to prevent further execution
+    }
+
+    // Set product information on the customer page
+    this.g.getCustomerPage().setProductInfo(this.selectedProduct);
+
+    // Get the quantity entered by the user
+    int enteredQuantity = this.g.getCustomerPage().getProductQuantity();
+
+    // Check if the entered quantity is valid
+    if (enteredQuantity <= 0) {
+        // Show a warning message if the user enters an invalid quantity
+        new Popup().warning("Add to Cart", "Invalid quantity. Please enter a valid quantity!");
+        return;  // Exit the method to prevent further execution
+    }
+
+    // Check if the selected product quantity is sufficient
+    if (selectedProduct.getQuantity() < enteredQuantity) {
+        // Show a warning message if the selected product quantity is insufficient
+        new Popup().warning("Add to Cart", "Insufficient stock. Available quantity: " + selectedProduct.getQuantity());
     } else {
         // Update the quantity of the selected product based on user input
-        selectedProduct.updateQuantity(this.g.getCustomerPage().getProductQuantity());
+        selectedProduct.updateQuantity(enteredQuantity);
 
         // Add the selected product to the cart
         cart.add(selectedProduct);
+
+        // Show a success message
+        new Popup().info("Add to Cart", "Product added to the cart successfully!");
     }
 
     // Update the cart list on the customer page
     this.g.getCustomerPage().updateCartList(cart);
 }
-
 
    // Method to handle removing a product from the shopping cart
 private void removeFromCart() {
